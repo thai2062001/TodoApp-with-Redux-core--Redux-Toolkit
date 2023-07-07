@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { todoRemainingSelector } from "../../store/selector";
 import { addTodo } from "../../store/action";
+import todoSlice from "../Todo/todoSlice";
 
 export default function TodoList() {
   const [todoName, setTodoName] = useState();
@@ -12,15 +13,30 @@ export default function TodoList() {
   const dispatch = useDispatch();
 
   const todoList = useSelector(todoRemainingSelector);
+
   const handleInputChange = (e) => {
     setTodoName(e.target.value);
   };
   const handlePriorityChange = (value) => {
     setPriority(value);
   };
-  const handleButtonAdd = () => {
+  const handleButtonAddClick = () => {
+    // REDUX CORE DISPATCH ACTION
     dispatch(
       addTodo({
+        id: uuidv4(),
+        name: todoName,
+        priority: priority,
+        completed: false,
+      })
+    );
+    setTodoName();
+    setPriority("Medium");
+  };
+  const handleButtonAdd = () => {
+    // REDUX TOOLKIT DISPATCH ACTION
+    dispatch(
+      todoSlice.actions.addTodo({
         id: uuidv4(),
         name: todoName,
         priority: priority,

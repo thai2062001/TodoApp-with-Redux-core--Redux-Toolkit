@@ -7,15 +7,22 @@ const priorityColorMapping = {
   Medium: "blue",
   Low: "gray",
 };
+import todoSlice from "./todoSlice";
 
 export default function Todo({ name, prioriry, id, completed }) {
   const [checked, setChecked] = useState(completed);
 
   const dispatch = useDispatch();
 
-  const toggleCheckbox = () => {
+  const toggleCheckboxReduxCore = () => {
+    //REDUX CORE
     setChecked(!checked);
     dispatch(checkedPriority(id));
+  };
+  const toggleCheckboxReduxToolkit = () => {
+    //REDUX TOOLKIT
+    setChecked(!checked);
+    dispatch(todoSlice.actions.checkedPriority(id));
   };
 
   return (
@@ -26,7 +33,7 @@ export default function Todo({ name, prioriry, id, completed }) {
         ...(checked ? { opacity: 0.5, textDecoration: "line-through" } : {}),
       }}
     >
-      <Checkbox checked={checked} onChange={toggleCheckbox}>
+      <Checkbox checked={checked} onChange={toggleCheckboxReduxToolkit}>
         {name}
       </Checkbox>
       <Tag color={priorityColorMapping[prioriry]} style={{ margin: 0 }}>

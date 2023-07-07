@@ -1,3 +1,5 @@
+//Redux Core
+
 const innitstate = {
   search: "",
   status: "All",

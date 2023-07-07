@@ -1,9 +1,11 @@
-import { createSelector } from "reselect";
+//redux core selector
+
+import { createSelector } from "@reduxjs/toolkit";
 
 export const searchTextSelector = (state) => state.filters.search;
 export const todoListSelector = (state) => state.todoList;
 export const radioFilterSelector = (state) => state.filters.status;
-export const prioritiesFilterSelector = (state) => state.filters.priories;
+export const prioritiesFilterSelector = (state) => state.filters.priorities;
 export const todoRemainingSelector = createSelector(
   todoListSelector,
   radioFilterSelector,
@@ -18,21 +20,9 @@ export const todoRemainingSelector = createSelector(
       }
       return (
         todo.name.includes(searchText) &&
-        (status === "Completed"
-          ? todo.completed
-          : !todo.completed &&
-            (priorities.length ? priorities.includes(todo.priority) : true))
+        (status === "Completed" ? todo.completed : !todo.completed) &&
+        (priorities.length ? priorities.includes(todo.priority) : true)
       );
     });
   }
 );
-
-// export const todoListSelector = (state)=>{
-//     const searchText = SearchTextSelector(state);
-
-//     const todoRemaining = state.todoList.filter(todo=>{
-//         return todo.name.includes(state.filters.search)
-//     });
-
-//     return todoRemaining;
-// };
